@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Магазин уютных товаров</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Главная навигация">
+      <a class="logo" href="#">Cozy Shop</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#cart">Корзина</a>
+      <a href="#order">Заказ</a>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">товары для дома</p>
+        <h1>Интернет-магазин уютных вещей</h1>
+        <p>Выберите товары из каталога, добавьте их в корзину и оформите заказ прямо на странице.</p>
+      </div>
+      <a class="hero-button" href="#catalog">Перейти к покупкам</a>
+    </section>
+  </header>
+
+  <main>
+    <section class="catalog-section" id="catalog" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <p class="eyebrow">каталог</p>
+        <h2 id="catalog-title">Популярные товары</h2>
+      </div>
+
+      <div class="product-grid" id="product-list" aria-live="polite"></div>
+    </section>
+
+    <section class="cart-section" id="cart" aria-labelledby="cart-title">
+      <div class="section-heading">
+        <p class="eyebrow">корзина</p>
+        <h2 id="cart-title">Ваши покупки</h2>
+      </div>
+
+      <div class="cart-layout">
+        <div class="cart-items" id="cart-items"></div>
+
+        <aside class="cart-summary" aria-label="Итоги корзины">
+          <p>Товаров: <span id="cart-count">0</span></p>
+          <p class="total">Итого: <span id="cart-total">0 ₽</span></p>
+          <button class="checkout-button" id="checkout-button" type="button">Оформить заказ</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="order-section" id="order" aria-labelledby="order-title" hidden>
+      <div class="section-heading">
+        <p class="eyebrow">оформление</p>
+        <h2 id="order-title">Данные для доставки</h2>
+      </div>
+
+      <form class="order-form" id="order-form">
+        <label>
+          Имя
+          <input type="text" name="firstName" placeholder="Анна" required>
+        </label>
+
+        <label>
+          Фамилия
+          <input type="text" name="lastName" placeholder="Иванова" required>
+        </label>
+
+        <label>
+          Адрес доставки
+          <input type="text" name="address" placeholder="Улица, дом, квартира" required>
+        </label>
+
+        <label>
+          Контактный номер телефона
+          <input type="tel" name="phone" placeholder="+7 999 123-45-67" required>
+        </label>
+
+        <button type="submit">Создать заказ</button>
+      </form>
+
+      <p class="order-message" id="order-message" role="status"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Cozy Shop, учебный проект интернет-магазина.</p>
+  </footer>
+
+  <template id="product-card-template">
+    <article class="product-card">
+      <div class="product-image" aria-hidden="true"></div>
+      <div class="product-info">
+        <h3></h3>
+        <p class="product-description"></p>
+        <p class="product-price"></p>
+        <button type="button">Добавить в корзину</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
