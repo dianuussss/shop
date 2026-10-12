@@ -57,9 +57,19 @@ button {
 }
 
 .nav .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   margin-right: auto;
   font-size: 24px;
   color: var(--accent-dark);
+}
+
+.nav .logo img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
 }
 
 .hero {
