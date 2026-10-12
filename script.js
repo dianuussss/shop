@@ -1,44 +1,6 @@
-const products = [
-  {
-    id: 1,
-    title: 'Керамическая кружка',
-    description: 'Большая кружка для чая, кофе и спокойных вечеров.',
-    price: 850,
-  },
-  {
-    id: 2,
-    title: 'Ароматическая свеча',
-    description: 'Свеча с мягким ванильным ароматом и хлопковым фитилем.',
-    price: 620,
-  },
-  {
-    id: 3,
-    title: 'Плед из хлопка',
-    description: 'Легкий плед для дивана, кресла или прогулок на балконе.',
-    price: 2490,
-  },
-  {
-    id: 4,
-    title: 'Декоративная подушка',
-    description: 'Мягкая подушка с минималистичным узором.',
-    price: 1190,
-  },
-  {
-    id: 5,
-    title: 'Настольная лампа',
-    description: 'Компактная лампа с теплым светом для рабочего стола.',
-    price: 3190,
-  },
-  {
-    id: 6,
-    title: 'Органайзер для мелочей',
-    description: 'Деревянный органайзер для ключей, украшений и канцелярии.',
-    price: 990,
-  },
-];
-
 const productList = document.querySelector('#product-list');
 const productTemplate = document.querySelector('#product-card-template');
+const cartItemTemplate = document.querySelector('#cart-item-template');
 const cartItems = document.querySelector('#cart-items');
 const cartCount = document.querySelector('#cart-count');
 const cartTotal = document.querySelector('#cart-total');
@@ -143,13 +105,53 @@ function getCartTotals() {
   );
 }
 
+function renderEmptyCart() {
+  const emptyMessage = document.createElement('p');
+  emptyMessage.className = 'cart-empty';
+  emptyMessage.textContent = 'Корзина пока пустая. Добавьте товары из каталога.';
+  cartItems.append(emptyMessage);
+
+  orderSection.hidden = true;
+  orderMessage.textContent = '';
+}
+
+function createCartItem(item, product) {
+  const cartItem = cartItemTemplate.content.cloneNode(true);
+  const title = cartItem.querySelector('h3');
+  const price = cartItem.querySelector('p');
+  const quantityControl = cartItem.querySelector('.quantity-control');
+  const quantity = cartItem.querySelector('span');
+  const decreaseButton = cartItem.querySelector('[data-action="decrease"]');
+  const increaseButton = cartItem.querySelector('[data-action="increase"]');
+  const removeButton = cartItem.querySelector('[data-action="remove"]');
+
+  title.textContent = product.title;
+  price.textContent = `${formatPrice(product.price)} за штуку`;
+  quantity.textContent = item.quantity;
+  quantityControl.setAttribute('aria-label', `Количество товара ${product.title}`);
+  decreaseButton.setAttribute('aria-label', 'Уменьшить количество');
+  increaseButton.setAttribute('aria-label', 'Увеличить количество');
+
+  decreaseButton.addEventListener('click', () => {
+    changeQuantity(product.id, -1);
+  });
+
+  increaseButton.addEventListener('click', () => {
+    changeQuantity(product.id, 1);
+  });
+
+  removeButton.addEventListener('click', () => {
+    removeFromCart(product.id);
+  });
+
+  return cartItem;
+}
+
 function renderCart() {
-  cartItems.innerHTML = '';
+  cartItems.replaceChildren();
 
   if (cart.length === 0) {
-    cartItems.innerHTML = '<p class="cart-empty">Корзина пока пустая. Добавьте товары из каталога.</p>';
-    orderSection.hidden = true;
-    orderMessage.textContent = '';
+    renderEmptyCart();
     return;
   }
 
@@ -160,34 +162,7 @@ function renderCart() {
       return;
     }
 
-    const cartItem = document.createElement('article');
-    cartItem.className = 'cart-item';
-    cartItem.innerHTML = `
-      <div>
-        <h3>${product.title}</h3>
-        <p>${formatPrice(product.price)} за штуку</p>
-      </div>
-      <div class="quantity-control" aria-label="Количество товара ${product.title}">
-        <button type="button" data-action="decrease" aria-label="Уменьшить количество">−</button>
-        <span>${item.quantity}</span>
-        <button type="button" data-action="increase" aria-label="Увеличить количество">+</button>
-      </div>
-      <button class="remove-button" type="button" data-action="remove">Удалить</button>
-    `;
-
-    cartItem.querySelector('[data-action="decrease"]').addEventListener('click', () => {
-      changeQuantity(product.id, -1);
-    });
-
-    cartItem.querySelector('[data-action="increase"]').addEventListener('click', () => {
-      changeQuantity(product.id, 1);
-    });
-
-    cartItem.querySelector('[data-action="remove"]').addEventListener('click', () => {
-      removeFromCart(product.id);
-    });
-
-    cartItems.append(cartItem);
+    cartItems.append(createCartItem(item, product));
   });
 }
 

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Магазин уютных товаров</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -102,6 +103,22 @@
     </article>
   </template>
 
+  <template id="cart-item-template">
+    <article class="cart-item">
+      <div>
+        <h3></h3>
+        <p></p>
+      </div>
+      <div class="quantity-control">
+        <button type="button" data-action="decrease">−</button>
+        <span></span>
+        <button type="button" data-action="increase">+</button>
+      </div>
+      <button class="remove-button" type="button" data-action="remove">Удалить</button>
+    </article>
+  </template>
+
+  <script src="data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
